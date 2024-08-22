@@ -112,9 +112,9 @@ return {
 
     local function find_command()
       if 1 == vim.fn.executable("rg") then
-        return { "rg", "--files", "--color", "never", "-g", "!.git" }
+        return { "rg", "--files", "--color", "never", "-g", "!.git", "--no-ignore" }
       elseif 1 == vim.fn.executable("fd") then
-        return { "fd", "--type", "f", "--color", "never", "-E", ".git" }
+        return { "fd", "--type", "f", "--color", "never", "-E", ".git", "--no-ignore" }
       elseif 1 == vim.fn.executable("fdfind") then
         return { "fdfind", "--type", "f", "--color", "never", "-E", ".git" }
       elseif 1 == vim.fn.executable("find") and vim.fn.has("win32") == 0 then
