@@ -134,7 +134,7 @@ return {
         layout_config = {
           preview_cutoff = 1, -- Preview should always show (unless previewer = false)
           width = function(_, max_columns, _)
-            return math.min(max_columns, 150)
+            return math.min(max_columns, 170)
           end,
           height = function(_, _, max_lines)
             return math.min(max_lines, 15)
@@ -180,6 +180,9 @@ return {
           find_command = find_command,
           hidden = true,
         },
+      },
+      file_ignore_patterns = {
+        "node_modules", "target", "build", "doc", ".idea", ".git"
       },
     }
   end,
