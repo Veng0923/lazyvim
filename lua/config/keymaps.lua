@@ -4,10 +4,10 @@
 
 local set_keymap = vim.api.nvim_set_keymap
 
-vim.keymap.set("n", "j", "k")
-vim.keymap.set("n", "k", "j")
-vim.keymap.set("n", "<C-k>", "<C-j>")
-vim.keymap.set("n", "<C-j>", "<C-k>")
+-- vim.keymap.set("n", "j", "k")
+-- vim.keymap.set("n", "k", "j")
+-- vim.keymap.set("n", "<C-k>", "<C-j>")
+-- vim.keymap.set("n", "<C-j>", "<C-k>")
 -- 映射 Caps Lock 为 Esc
 --set_keymap("i", "<C-L>", "<Esc>", { noremap = true, silent = true })
 --set_keymap("n", "<C-L>", "<Esc>", { noremap = true, silent = true })

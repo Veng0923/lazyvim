@@ -4,8 +4,8 @@
 --
 
 local opt = vim.opt
---opt.relativenumber = false
-opt.shiftwidth = 4
-opt.tabstop = 4
-vim.g.autoformat = false
-vim.g.NERDSpaceDelims = 1
+--opt.relativenumber = false  -- 相对行号
+opt.tabstop = 4 -- Tab 显示为4个空格
+opt.shiftwidth = 4 -- 自动缩进为4格
+vim.g.autoformat = false    -- 自动格式化文件
+vim.g.NERDSpaceDelims = 1   -- 注释分割符添加空格
