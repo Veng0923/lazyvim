@@ -52,3 +52,45 @@ vim.keymap.set("n", "<leader>rn", ":IncRename ")
 
 -- undotree
 vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle)
+
+
+-- copy path
+-- 获取项目根目录的函数（根据你的项目结构调整）
+local function get_project_root()
+  -- 你可以使用类似于 .git 或其他项目标识文件来确定项目根目录
+  local path = vim.fn.getcwd() -- 或者使用 vim.fn.finddir('.git', ';') 来找到项目根目录
+  return path
+end
+
+-- 定义函数来复制当前缓冲区的相对项目路径到剪贴板
+local function copy_current_buffer_relative_path()
+  local absolute_path = vim.fn.expand('%:p')  -- 获取当前缓冲区的绝对路径
+  local project_root = get_project_root()      -- 获取项目根目录
+  local relative_path = vim.fn.fnamemodify(absolute_path, ':p:.' .. project_root)  -- 计算相对路径
+  vim.fn.setreg('+', relative_path)            -- 将路径复制到系统剪贴板
+  print('Copied relative path to clipboard: ' .. relative_path)
+end
+
+local function copy_current_buffer_filename()
+  local filename = vim.fn.expand('%:t')
+  vim.fn.setreg('+', filename)
+  print('Copied filename to clipboard: ' .. filename)
+end
+
+-- 定义函数来复制当前缓冲区的路径到剪贴板
+local function copy_current_buffer_path()
+  local path = vim.fn.expand('%:p')  -- 获取当前缓冲区的完整路径
+  vim.fn.setreg('+', path)           -- 将路径复制到系统剪贴板
+  print('Copied absolute path to clipboard: ' .. path)
+end
+
+vim.api.nvim_create_user_command('CopyAbsoluteBufferPath', copy_current_buffer_path, {})
+-- copy filename to clipboard
+vim.api.nvim_create_user_command('CopyBufferFilename', copy_current_buffer_filename, {})
+-- 创建一个命令来调用这个函数
+vim.api.nvim_create_user_command('CopyBufferRelativePath', copy_current_buffer_relative_path, {})
+
+vim.api.nvim_set_keymap('n', '<leader>cpa', ": CopyAbsoluteBufferPath<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>cpf', ": CopyBufferFilename<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>cpr', ": CopyBufferRelativePath<cr>", { noremap = true, silent = true })
+
