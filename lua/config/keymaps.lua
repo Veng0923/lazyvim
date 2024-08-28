@@ -30,7 +30,7 @@ set_keymap("n", "<leader>hu", "<cmd>Gitsigns undo_stage_hunk<CR>", { silent = tr
 set_keymap("n", "<leader>hR", "<cmd>Gitsigns reset_buffer<CR>", { silent = true, noremap = true })
 set_keymap("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>", { silent = true, noremap = true })
 set_keymap("n", "<leader>hb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', { silent = true, noremap = true })
-set_keymap("n", "<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>gtb", "<cmd>Gitsigns toggle_current_line_blame<CR>", { silent = true, noremap = true })
 set_keymap("n", "<leader>hd", "<cmd>Gitsigns diffthis<CR>", { silent = true, noremap = true })
 set_keymap("n", "<leader>hD", '<cmd>lua require"gitsigns".diffthis("~")<CR>', { silent = true, noremap = true })
 set_keymap("n", "<leader>td", "<cmd>Gitsigns toggle_deleted<CR>", { silent = true, noremap = true })
@@ -93,4 +93,27 @@ vim.api.nvim_create_user_command('CopyBufferRelativePath', copy_current_buffer_r
 vim.api.nvim_set_keymap('n', '<leader>cpa', ": CopyAbsoluteBufferPath<cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>cpf', ": CopyBufferFilename<cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>cpr', ": CopyBufferRelativePath<cr>", { noremap = true, silent = true })
+
+
+-- 定义函数来在 Neovim 内部终端中打开当前缓冲区的路径
+local function open_current_buffer_path_in_terminal()
+  local absolute_path = vim.fn.expand('%:p:h')  -- 获取当前缓冲区的目录路径
+  local terminal_cmd
+
+  if vim.fn.has('unix') == 1 then
+    terminal_cmd = 'cd ' .. vim.fn.shellescape(absolute_path) .. ' && exec $SHELL'
+  elseif vim.fn.has('win32') == 1 then
+    terminal_cmd = 'cd /d ' .. vim.fn.shellescape(absolute_path) .. ' && powershell'
+  else
+    print("Unsupported operating system")
+    return
+  end
+
+  -- 打开一个新的终端窗口并运行命令
+  vim.cmd('belowright split | terminal ' .. terminal_cmd)
+end
+
+-- 创建一个命令来调用这个函数
+vim.api.nvim_create_user_command('OpenBufferPathInTerminal', open_current_buffer_path_in_terminal, {})
+vim.api.nvim_set_keymap('n', '<leader>tb', ": OpenBufferPathInTerminal<cr>", { noremap = true, silent = true })
 
