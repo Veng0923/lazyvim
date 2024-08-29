@@ -2,7 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-local set_keymap = vim.api.nvim_set_keymap
+local set_keymap = vim.keymap.set
 
 -- vim.keymap.set("n", "j", "k")
 -- vim.keymap.set("n", "k", "j")
@@ -21,19 +21,19 @@ set_keymap("v", "<C-c>", "y", { noremap = true, silent = true })
 -- Gitsigns
 set_keymap("n", "<leader>gj", "<cmd>Gitsigns next_hunk<CR>", { silent = true, noremap = true })
 set_keymap("n", "<leader>gk", "<Cmd>Gitsigns prev_hhunk<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hs", ":Gitsigns stage_hunk<CR>", { silent = true, noremap = true })
-set_keymap("v", "<leader>hs", ":Gitsigns stage_hunk<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hr", ":Gitsigns reset_hunk<CR>", { silent = true, noremap = true })
-set_keymap("v", "<leader>hr", ":Gitsigns reset_hunk<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hS", "<cmd>Gitsigns stage_buffer<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hu", "<cmd>Gitsigns undo_stage_hunk<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hR", "<cmd>Gitsigns reset_buffer<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', { silent = true, noremap = true })
+set_keymap("n", "<leader>ghs", ":Gitsigns stage_hunk<CR>", { silent = true, noremap = true })
+set_keymap("v", "<leader>ghs", ":Gitsigns stage_hunk<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>ghr", ":Gitsigns reset_hunk<CR>", { silent = true, noremap = true })
+set_keymap("v", "<leader>ghr", ":Gitsigns reset_hunk<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>ghS", "<cmd>Gitsigns stage_buffer<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>ghu", "<cmd>Gitsigns undo_stage_hunk<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>ghR", "<cmd>Gitsigns reset_buffer<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>ghp", "<cmd>Gitsigns preview_hunk<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>ghb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', { silent = true, noremap = true })
 set_keymap("n", "<leader>gtb", "<cmd>Gitsigns toggle_current_line_blame<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hd", "<cmd>Gitsigns diffthis<CR>", { silent = true, noremap = true })
-set_keymap("n", "<leader>hD", '<cmd>lua require"gitsigns".diffthis("~")<CR>', { silent = true, noremap = true })
-set_keymap("n", "<leader>td", "<cmd>Gitsigns toggle_deleted<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>ghd", "<cmd>Gitsigns diffthis<CR>", { silent = true, noremap = true })
+set_keymap("n", "<leader>ghD", '<cmd>lua require"gitsigns".diffthis("~")<CR>', { silent = true, noremap = true })
+set_keymap("n", "<leader>gtd", "<cmd>Gitsigns toggle_deleted<CR>", { silent = true, noremap = true })
 set_keymap("o", "ih", ":<C-U>Gitsigns select_hunk<CR>", { silent = true, noremap = true })
 set_keymap("x", "ih", ":<C-U>Gitsigns select_hunk<CR>", { silent = true, noremap = true })
 
@@ -48,10 +48,10 @@ set_keymap("n", "<leader>mA", [[<cmd>Telescope vim_bookmarks all<cr>]], {})
 set_keymap("n", "<leader>fo", [[<cmd>Telescope oldfiles theme=dropdown previewer=false<cr>]], {})
 
 -- inc-rename
-vim.keymap.set("n", "<leader>rn", ":IncRename ")
+set_keymap("n", "<leader>rn", ":IncRename ")
 
 -- undotree
-vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle)
+set_keymap("n", "<leader><F5>", vim.cmd.UndotreeToggle)
 
 
 -- copy path
@@ -90,9 +90,10 @@ vim.api.nvim_create_user_command('CopyBufferFilename', copy_current_buffer_filen
 -- 创建一个命令来调用这个函数
 vim.api.nvim_create_user_command('CopyBufferRelativePath', copy_current_buffer_relative_path, {})
 
-vim.api.nvim_set_keymap('n', '<leader>cpa', ": CopyAbsoluteBufferPath<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>cpf', ": CopyBufferFilename<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>cpr', ": CopyBufferRelativePath<cr>", { noremap = true, silent = true })
+set_keymap("n", "<leader>cp", "", {silent = true, desc = "Copy Path"})
+set_keymap('n', '<leader>cpa', ": CopyAbsoluteBufferPath<cr>", { noremap = true, silent = true, desc = "Copy Absolute Path" })
+set_keymap('n', '<leader>cpf', ": CopyBufferFilename<cr>", { noremap = true, silent = true, desc = "Copy FileName" })
+set_keymap('n', '<leader>cpr', ": CopyBufferRelativePath<cr>", { noremap = true, silent = true, desc = "Copy Relative Path"})
 
 
 -- 定义函数来在 Neovim 内部终端中打开当前缓冲区的路径
@@ -115,5 +116,6 @@ end
 
 -- 创建一个命令来调用这个函数
 vim.api.nvim_create_user_command('OpenBufferPathInTerminal', open_current_buffer_path_in_terminal, {})
-vim.api.nvim_set_keymap('n', '<leader>tb', ": OpenBufferPathInTerminal<cr>", { noremap = true, silent = true })
+set_keymap("n", "<leader>t", "", {silent = true, desc = "terminal"})
+set_keymap('n', '<leader>tb', ": OpenBufferPathInTerminal<cr>", { noremap = true, silent = true, desc = "open In Terminal" })
 
