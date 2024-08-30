@@ -114,8 +114,15 @@ local function open_current_buffer_path_in_terminal()
   vim.cmd('belowright split | terminal ' .. terminal_cmd)
 end
 
+local function open_root_in_terminal()
+    vim.cmd('belowright split| terminal')
+end
+
 -- 创建一个命令来调用这个函数
 vim.api.nvim_create_user_command('OpenBufferPathInTerminal', open_current_buffer_path_in_terminal, {})
+vim.api.nvim_create_user_command('OpenRootPathInTerminal', open_root_in_terminal, {})
+
 set_keymap("n", "<leader>t", "", {silent = true, desc = "terminal"})
 set_keymap('n', '<leader>tb', ": OpenBufferPathInTerminal<cr>", { noremap = true, silent = true, desc = "open In Terminal" })
+set_keymap('n', '<leader>to', ": OpenRootPathInTerminal<cr>", { noremap = true, silent = true, desc = "open root In Terminal" })
 
