@@ -4,10 +4,10 @@
 
 require("lualine").setup({
     sections = {
-        lualine_c = { { 'filename', path = 2, shorten = false } }, -- 禁用缩短
+        lualine_c = { { 'filename', path = 1, shorten = false } }, -- 禁用缩短
     },
     inactive_sections = {
-        lualine_c = { { 'filename', path = 2, shorten = false } }, -- 禁用缩短
+        lualine_c = { { 'filename', path = 1, shorten = false } }, -- 禁用缩短
     },
 })
 
