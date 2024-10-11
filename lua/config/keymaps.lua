@@ -13,6 +13,33 @@ local set_keymap = vim.keymap.set
 --set_keymap("n", "<C-L>", "<Esc>", { noremap = true, silent = true })
 --set_keymap("x", "<C-L>", "<Esc>", { noremap = true, silent = true })
 
+
+-- 使用vscode打开当前文件
+local function open_file_with_vscode()
+    local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+    local path = vim.fn.expand('%:p')
+    if git_root and git_root ~= '' then
+        path = vim.fn.fnamemodify(path, ":~:.")
+        os.execute("code --add "..git_root)
+    end
+    local current_line = vim.fn.line(".")
+    local command = string.format("code -g %s:%d", path, current_line)
+    os.execute(command)
+end
+vim.api.nvim_create_user_command('OpenFileWithVSCode', open_file_with_vscode, {})
+
+-- 使用文件系统打开当前所在目录
+local function open_with_filemanamger()
+    local path = vim.fn.expand("%:p:h")
+    os.execute("open "..path)
+end
+vim.api.nvim_create_user_command('OpenWithFilemanager', open_with_filemanamger, {})
+
+set_keymap("n", "<leader>o", "", {silent = true, desc = "open with"})
+set_keymap('n', '<leader>oF', ":OpenWithFilemanager<cr>", { noremap = true, silent = true, desc = "open with filemanager" })
+set_keymap("n", "<leader>of", "", {silent = true, desc = "open file with"})
+set_keymap('n', '<leader>ofc', ":OpenFileWithVSCode<cr>", { noremap = true, silent = true, desc = "open file with vscode" })
+
 -- line start line end
 set_keymap("n", "<C-a>", "^", { noremap = true, silent = true })
 set_keymap("n", "<C-e>", "$", { noremap = true, silent = true })
